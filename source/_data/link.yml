@@ -1,0 +1,25 @@
+- class_name: 友链
+  class_desc: 饮水思源
+  link_list:
+    - name: butterfly
+      link: https://github.com/jerryc127/hexo-theme-butterfly/tree/3.7.0
+      descr: butterfly 开发者
+    - name: Hexo
+      link: https://hexo.io/zh-tw/
+      avatar: https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg
+      descr: 快速、简单且强大网站框架
+
+- class_name: 网站
+  class_desc: 蛮有意思的网站
+  link_list:
+    - name: 哔哩哔哩
+      link: https://www.bilibili.com/
+      avatar: https://i0.hdslb.com/bfs/activity-plat/static/4f3662116d8ab4ee084213142492fc16/3ztk-iAZG_w643_h362.jpeg
+      descr: 著名的学习网站
+    - name: Youtube
+      link: https://www.youtube.com/
+      avatar: https://i.loli.net/2020/05/14/9ZkGg8v3azHJfM1.png
+      descr: 视频网站
+    - name: Gayhub
+      link: https://github.com/
+      descr: 全球最大交友网站
