@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>配齐的个人博客</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://liaozihang.github.io/"/>
+  <updated>2020-01-31T16:48:46.771Z</updated>
+  <id>https://liaozihang.github.io/</id>
+  
+  <author>
+    <name>配齐</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数</title>
+    <link href="https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/"/>
+    <id>https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/</id>
+    <published>2020-01-07T04:20:02.000Z</published>
+    <updated>2020-01-31T16:48:46.771Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-主要目标"><a href="#1-主要目标" class="headerlink" title="1.主要目标"></a>1.主要目标</h1><blockquote><ol><li>理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。</li><li>理解BCH近似的意义。</li><li>学会在李代数上的扰动模型。</li><li>使用Sophus对李代数进行运算。</li></ol></blockquote><hr><p>……</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-主要目标&quot;&gt;&lt;a href=&quot;#1-主要目标&quot; class=&quot;headerlink&quot; title=&quot;1.主要目标&quot;&gt;&lt;/a&gt;1.主要目标&lt;/h1&gt;&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方
+      
+    
+    </summary>
+    
+    
+      <category term="学习" scheme="https://liaozihang.github.io/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="SLAM" scheme="https://liaozihang.github.io/tags/SLAM/"/>
+    
+      <category term="李群" scheme="https://liaozihang.github.io/tags/%E6%9D%8E%E7%BE%A4/"/>
+    
+      <category term="李代数" scheme="https://liaozihang.github.io/tags/%E6%9D%8E%E4%BB%A3%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>writeDemo</title>
+    <link href="https://liaozihang.github.io/2020/01/04/writeDemo/"/>
+    <id>https://liaozihang.github.io/2020/01/04/writeDemo/</id>
+    <published>2020-01-04T09:40:28.000Z</published>
+    <updated>2020-01-31T16:42:52.282Z</updated>
+    
+    <content type="html"><![CDATA[<p>@[toc]</p><p>@[TOC]</p><h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h2 id="test-1"><a href="#test-1" class="headerlink" title="test"></a>test</h2><ul><li><h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><ul><li><h4 id="1-1-footnote1"><a href="#1-1-footnote1" class="headerlink" title="1.1^footnote1"></a>1.1<a href="这是脚注提示1">^footnote1</a></h4></li></ul></li><li><h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3></li><li><h3 id="3"><a href="#3" class="headerlink" title="3"></a>3</h3></li></ul><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table><p><a href="https://www.baidu.com/" target="_blank" rel="noopener">百度</a></p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">foo</span> <span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num&gt;<span class="number">1</span>)&#123;<span class="keyword">return</span> <span class="number">0</span>&#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;<span class="keyword">return</span> num+<span class="number">1</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>highlight</code></p><blockquote><p>引用1</p><blockquote><p>引用1.1</p></blockquote></blockquote><!--注释--><p><del>del</del></p><ul><li><input disabled type="checkbox"> 任务列表</li><li><input checked disabled type="checkbox"> 已完成</li></ul><hr><p>$\exp \left( \phi ^{\wedge}\right) =\sum ^{\infty }_{n=0}\dfrac {1}{n!}\left( \phi ^{\wedge}\right) ^{n}$</p><p>$$<br>\exp \left( \phi ^{\wedge}\right) =\sum ^{\infty }_{n=0}\dfrac {1}{n!}\left( \phi ^{\wedge}\right) ^{n}<br>$$</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;@[toc]&lt;/p&gt;
+&lt;p&gt;@[TOC]&lt;/p&gt;
+&lt;h1 id=&quot;test&quot;&gt;&lt;a href=&quot;#test&quot; class=&quot;headerlink&quot; title=&quot;test&quot;&gt;&lt;/a&gt;test&lt;/h1&gt;&lt;h2 id=&quot;test-1&quot;&gt;&lt;a href=&quot;#test-1&quot; cla
+      
+    
+    </summary>
+    
+    
+      <category term="工具" scheme="https://liaozihang.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="hexo" scheme="https://liaozihang.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+</feed>
