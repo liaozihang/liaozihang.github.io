@@ -8,7 +8,7 @@
       <link href="/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/"/>
       <url>/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/</url>
       
-        <content type="html"><![CDATA[<h1 id="1-主要目标"><a href="#1-主要目标" class="headerlink" title="1.主要目标"></a>1.主要目标</h1><blockquote><ol><li>理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。</li><li>理解BCH近似的意义。</li><li>学会在李代数上的扰动模型。</li><li>使用Sophus对李代数进行运算。</li></ol></blockquote><hr><p>……</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="1-主要目标"><a href="#1-主要目标" class="headerlink" title="1.主要目标"></a>1.主要目标</h1><blockquote><ol><li>理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。</li><li>理解BCH近似的意义。</li><li>学会在李代数上的扰动模型。</li><li>使用Sophus对李代数进行运算。</li></ol></blockquote><hr><p>……</p><h2 id="2-锟斤拷"><a href="#2-锟斤拷" class="headerlink" title="2.锟斤拷"></a>2.锟斤拷</h2>]]></content>
       
       
       <categories>

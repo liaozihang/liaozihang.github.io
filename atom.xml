@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://liaozihang.github.io/"/>
-  <updated>2020-01-31T16:48:46.771Z</updated>
+  <updated>2020-01-31T17:02:13.205Z</updated>
   <id>https://liaozihang.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/"/>
     <id>https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/</id>
     <published>2020-01-07T04:20:02.000Z</published>
-    <updated>2020-01-31T16:48:46.771Z</updated>
+    <updated>2020-01-31T17:02:13.205Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="1-主要目标"><a href="#1-主要目标" class="headerlink" title="1.主要目标"></a>1.主要目标</h1><blockquote><ol><li>理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。</li><li>理解BCH近似的意义。</li><li>学会在李代数上的扰动模型。</li><li>使用Sophus对李代数进行运算。</li></ol></blockquote><hr><p>……</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="1-主要目标"><a href="#1-主要目标" class="headerlink" title="1.主要目标"></a>1.主要目标</h1><blockquote><ol><li>理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。</li><li>理解BCH近似的意义。</li><li>学会在李代数上的扰动模型。</li><li>使用Sophus对李代数进行运算。</li></ol></blockquote><hr><p>……</p><h2 id="2-锟斤拷"><a href="#2-锟斤拷" class="headerlink" title="2.锟斤拷"></a>2.锟斤拷</h2>]]></content>
     
     <summary type="html">
     

@@ -6,15 +6,15 @@
   <meta name="keywords" content=" SLAM , 李群 , 李代数 ">
   <meta name="description" content="《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数 | 配齐的个人博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="1.主要目标  理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。 理解BCH近似的意义。 学会在李代数上的扰动模型。 使用Sophus对李代数进行运算。    ……">
+<meta name="description" content="1.主要目标  理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。 理解BCH近似的意义。 学会在李代数上的扰动模型。 使用Sophus对李代数进行运算。    …… 2.锟斤拷">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数">
 <meta property="og:url" content="https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/index.html">
 <meta property="og:site_name" content="配齐的个人博客">
-<meta property="og:description" content="1.主要目标  理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。 理解BCH近似的意义。 学会在李代数上的扰动模型。 使用Sophus对李代数进行运算。    ……">
+<meta property="og:description" content="1.主要目标  理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。 理解BCH近似的意义。 学会在李代数上的扰动模型。 使用Sophus对李代数进行运算。    …… 2.锟斤拷">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-07T04:20:02.000Z">
-<meta property="article:modified_time" content="2020-01-31T16:48:46.771Z">
+<meta property="article:modified_time" content="2020-01-31T17:02:13.205Z">
 <meta property="article:author" content="配齐">
 <meta property="article:tag" content="SLAM">
 <meta property="article:tag" content="李群">
@@ -176,7 +176,7 @@
     <div><a class="about  hasFriend  " target="_blank" href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="2">
-<input type="hidden" id="yelog_site_word_count" value="147">
+<input type="hidden" id="yelog_site_word_count" value="151">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -291,12 +291,12 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-02-01 00:48:46'>2020-01-07 12:20</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-01 01:02:13'>2020-01-07 12:20</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:64</span>
+        <span>字数:68</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -326,7 +326,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-主要目标"><span class="toc-text">1.主要目标</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-主要目标"><span class="toc-text">1.主要目标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-锟斤拷"><span class="toc-text">2.锟斤拷</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -352,7 +352,7 @@
 </blockquote>
 <hr>
 <p>……</p>
-
+<h2 id="2-锟斤拷"><a href="#2-锟斤拷" class="headerlink" title="2.锟斤拷"></a>2.锟斤拷</h2>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 liaozihang@gmail.com </span>
     </div>
@@ -366,10 +366,10 @@
 
 <div class="article_copyright">
     <p><span class="copy-title">文章标题:</span>《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">64</span></p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">68</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="配齐">配齐</a></p>
     <p><span class="copy-title">发布时间:</span>2020-01-07, 12:20:02</p>
-    <p><span class="copy-title">最后更新:</span>2020-02-01, 00:48:46</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-01, 01:02:13</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/" title="《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数">https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
