@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>关于rosdep的奇葩问题 | 配齐的个人博客</title><meta name="keywords" content="ros,rosdep,kinetic,OpenSSL"><meta name="author" content="配齐"><meta name="copyright" content="配齐"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[TOC] 问题描述12345678$ rosdep updatereading in sources list data from &#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.dHit file:&#x2F;&#x2F;&#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d&#x2F;osx-h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于rosdep的奇葩问题">
+<meta property="og:url" content="https://liaozihang.github.io/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="配齐的个人博客">
+<meta property="og:description" content="[TOC] 问题描述12345678$ rosdep updatereading in sources list data from &#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.dHit file:&#x2F;&#x2F;&#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d&#x2F;osx-h">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-03-24T10:24:02.000Z">
+<meta property="article:modified_time" content="2021-03-25T12:20:15.029Z">
+<meta property="article:author" content="配齐">
+<meta property="article:tag" content="ros">
+<meta property="article:tag" content="rosdep">
+<meta property="article:tag" content="kinetic">
+<meta property="article:tag" content="OpenSSL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://liaozihang.github.io/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-03-25 20:20:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="配齐的个人博客" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">配齐的个人博客</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">关于rosdep的奇葩问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-24T10:24:02.000Z" title="发表于 2021-03-24 18:24:02">2021-03-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-03-25T12:20:15.029Z" title="更新于 2021-03-25 20:20:15">2021-03-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E5%86%99bug/">学习写bug</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="关于rosdep的奇葩问题"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><hr>
+<p>[TOC]</p>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ rosdep update</span><br><span class="line">reading in sources list data from &#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d</span><br><span class="line">Hit file:&#x2F;&#x2F;&#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d&#x2F;osx-homebrew.yaml</span><br><span class="line">ERROR: unable to process source [https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros&#x2F;rosdistro&#x2F;master&#x2F;releases&#x2F;fuerte.yaml]:</span><br><span class="line">	Failed to download target platform data for gbpdistro:</span><br><span class="line">	&lt;urlopen error  [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)&gt;</span><br><span class="line">Hit file:&#x2F;&#x2F;&#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d&#x2F;base.yaml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>还有诸如<code>cannot download default sources list from</code> 、<code>unable to process source</code>等</p>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><blockquote>
+<p>搜索了一圈，发现大部分网友基本都是因为<code>你懂的</code>原因，出现了无法访问的问题，通过修改<code>host</code>、修改<code>nameserver</code>这些方法就能解决问题，但我遇到的问题好像是与<code>SSL安全证书</code>相关，网上搜索折腾了半天，终于还是update成功，特此记录一下。</p>
+</blockquote>
+<blockquote>
+<p>这里贴几个比较好的帖子，从问题根源分析，提出了对应的解决方案：</p>
+<blockquote>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/nanianwochengshui/article/details/105702188">sudo rosdep init 出现 ERROR: cannot download default sources list from:</a><br>这个分析了原因，基本能解决大部分人<code>rosdep init\update</code>问题,另外插一句，别xjb用<code>sudo</code>。</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_28975749/article/details/114694015?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242">rosdep init、update一步到位</a><br>针对我的问题看了一下，并没有到位，因为我的问题根源在于SSL证书校验。</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/blances/article/details/105970354">python ssl错误(或信任私有证书)：全局取消验证</a><br>干净利落，能解决我的问题。</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/yixieling4397/article/details/79861379">关于python出现ssl：certificate_verify_failed问题</a><br>较<code>3.</code>的基础上，简要分析了一下原因，并提出重视安全问题时，推荐使用的方法。</li>
+</ol>
+</blockquote>
+</blockquote>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>从第一个帖子大致了解到，<code>rosdep init</code> 、<code>rosdep update</code> 干了些啥。<br><code>rosdep init</code>通过访问预设的url ，下载了<code>20-default.list</code> 放在了<code>/etc/ros/rosdep/sources.list.d/20-default.list</code>路径。</p>
+<p>而<code>rosdep update</code>则根据<code>20-default.list</code>的路径，去下载更新其余配置。</p>
+<blockquote>
+<p>大致的归纳了一下，常见的几个解决办法总结如下：</p>
+<ol>
+<li>直接法：网络腿脚不便，修改<code>hosts</code>，<code>resolv.conf</code>;</li>
+<li>间接法（<strong>推荐</strong>）：手动下载几个文件，将url指向本地文件地址；</li>
+<li>取消ssl验证(<strong>针对certificate verify failed (_ssl.c:590)</strong>)；</li>
+</ol>
+</blockquote>
+<h2 id="rosdep-init"><a href="#rosdep-init" class="headerlink" title="rosdep init"></a>rosdep init</h2><h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法:"></a>第一种方法:</h3><blockquote>
+<ol>
+<li>通过<a target="_blank" rel="noopener" href="https://githubusercontent.com.ipaddress.com/raw.githubusercontent.com">https://www.ipaddress.com/</a><br>解析到raw.githubusercontent.com的ip地址<br><img src="/.io//2021-3-24-1616566537676.png" alt="raw.githubusercontent"></li>
+<li>sudo vim /etc/hosts<br><code>185.199.108.133 raw.githubusercontent.com</code>添加到hosts文件中；或者在<code>/etc/resolv.conf</code>中添加google的DNS <code>nameserver 8.8.8.8</code></li>
+</ol>
+</blockquote>
+<h3 id="第二种方法（推荐）："><a href="#第二种方法（推荐）：" class="headerlink" title="第二种方法（推荐）："></a>第二种方法（推荐）：</h3><blockquote>
+<p> 博客一里边的思路，针对Kinetic有效，<strong>建议用这个方法，毕竟第一种方法看脸</strong></p>
+<ol>
+<li>下载<a target="_blank" rel="noopener" href="https://github.com/ros/rosdistro">rosdistro库</a>，网络腿脚不便的同学，可以采用码云克隆仓库下载，也可以通过github镜像站下载，具体方法就不展开了。</li>
+<li>修改刚刚下载的<code>rosdistro库</code>,将里边的<code>rosdep/source.list.d/20-default.list</code>修改成如下形式：</li>
+</ol>
+ <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 注意， file:<span class="comment">//后边的字符串，更改为你存放对应文件的具体地址</span></span><br><span class="line"><span class="meta"># os-specific listings first</span></span><br><span class="line"><span class="meta">#yaml https:<span class="comment">//raw.githubusercontent.com/ros/rosdistro/master/rosdep/osx-homebrew.yaml osx</span></span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/osx-homebrew.yaml osx</span></span><br><span class="line"><span class="meta"># generic</span></span><br><span class="line">gbpdistro file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/fuerte.yaml fuerte</span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/base.yaml</span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/python.yaml</span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/ruby.yaml</span></span><br><span class="line"><span class="meta"># newer distributions (Groovy, Hydro, ...) must not be listed anymore, they are being fetched from the rosdistro index.yaml instead</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>修改<code>/usr/lib/python2.7/dist-packages/rosdep2/sources_list.py</code>，将<code>DEFAULT_SOURCES_LIST_URL</code>修改为20-default.list存放的路径</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEFAULT_SOURCES_LIST_URL = <span class="string">&#x27;file://你的rosdistro路径/rosdep/sources.list.d/20-default.list&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p> 同样的<br> 修改<code>/usr/lib/python2.7/dist-packages/rosdep2/rep3.py文件：</code></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># location of targets file for processing gbpdistro files</span></span><br><span class="line">REP3_TARGETS_URL = <span class="string">&#x27;file://你的rosdistro路径/releases/targets.yaml&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p> 修改<code>/usr/lib/python2.7/dist-packages/rosdistro/__init__.py文件：</code></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># index information</span></span><br><span class="line"></span><br><span class="line">DEFAULT_INDEX_URL = <span class="string">&#x27;file://你的rosdistro路径/index-v4.yaml&#x27;</span></span><br><span class="line"></span><br><span class="line">def get_index_url():</span><br></pre></td></tr></table></figure>
+
+<p> <code>rosdep init</code>即可，不管报错不报错，接着执行后边的操作就性了。</p>
+</blockquote>
+<h2 id="rosdep-update"><a href="#rosdep-update" class="headerlink" title="rosdep update"></a>rosdep update</h2><p>大部分人到这一步应该都没啥问题了，可我就不一样了（叉会儿腰），<br>我的一直报错<strong>certificate verify failed (_ssl.c:590)</strong>)，讲道理是可以不用管这个错误的，直接手动下载放到对应的文件夹即可，但看着这个错误，心里就是不爽。</p>
+<p>奋斗了大半夜，最后找到了两种解决办法，推荐第二种。<br><strong>解决办法分两种</strong></p>
+<h3 id="第一种方法："><a href="#第一种方法：" class="headerlink" title="第一种方法："></a>第一种方法：</h3><blockquote>
+<p>在<code>/usr/lib/python2.7/dist-packages/rosdistro/__init__.py</code>中添加</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line">ssl._create_default_https_context = ssl._create_unverified_context</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.io//2021-3-24-1616569842987.png" alt="rosdep update"></p>
+</blockquote>
+<h3 id="第二种方法（推荐）：-1"><a href="#第二种方法（推荐）：-1" class="headerlink" title="第二种方法（推荐）："></a>第二种方法（推荐）：</h3><p>考虑到之前重新编译过OpenSSL，怀疑是不是证书文件夹指向有问题。<br>根据<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/how-to-configure-openssl-linux?pivots=programming-language-cpp">Configure OpenSSL for Linux</a>的步骤，查看 :</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;$ openssl version -a |grep OPENSSLDIR</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;OPENSSLDIR: <span class="string">&quot;/usr/local/ssl&quot;</span> </span><br></pre></td></tr></table></figure>
+
+<p>接着查看<code>/usr/local/ssl/certs</code>是否包含<code>.crt</code> 、<code>.pem</code>的个人证书文件，如果有很多，你就不用接着往下看了。因为我也不知道该怎么解决。<br>如果是空的，或者只有零星的一两个文件，那么很有可能原先存放证书的文件夹不是这个。</p>
+</blockquote>
+<p><strong>解决办法</strong><br>在shell环境中指定<code>SSL_CERT_DIR</code>路径到实际存放证书的路径下。或者把证书文件链接到上一步输出的路径。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;$ locate ssl/certs</span><br><span class="line">&gt;<span class="comment">#可以看到 /etc/ssl/certs/有很多的.crt、.pem</span></span><br><span class="line">&gt;$ <span class="built_in">export</span> SSL_CERT_DIR=/etc/ssl/certs</span><br><span class="line">&gt;<span class="comment">#执行</span></span><br><span class="line">&gt;rodep update </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/.io//2021-3-24-1616572205910.png" alt="rosdep update successed"></p>
+</blockquote>
+<p>当然了，也可以做个软链接到<code>/usr/local/ssl</code>，不得不说，linux的软链接是真的舒服。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv /usr/<span class="built_in">local</span>/ssl/certs /usr/<span class="built_in">local</span>/ssl/certs.bak</span><br><span class="line">sudo ln -s /etc/ssl/certs /usr/<span class="built_in">local</span>/ssl/certs</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">配齐</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://liaozihang.github.io/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/">https://liaozihang.github.io/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liaozihang.github.io" target="_blank">配齐的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ros/">ros</a><a class="post-meta__tags" href="/tags/rosdep/">rosdep</a><a class="post-meta__tags" href="/tags/kinetic/">kinetic</a><a class="post-meta__tags" href="/tags/OpenSSL/">OpenSSL</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/"><img class="next-cover" src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">配齐</div><div class="author-info__description">配齐的个人博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.</span> <span class="toc-text">问题原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rosdep-init"><span class="toc-number">3.1.</span> <span class="toc-text">rosdep init</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.1.</span> <span class="toc-text">第一种方法:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89%EF%BC%9A"><span class="toc-number">3.1.2.</span> <span class="toc-text">第二种方法（推荐）：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rosdep-update"><span class="toc-number">3.2.</span> <span class="toc-text">rosdep update</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">3.2.1.</span> <span class="toc-text">第一种方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89%EF%BC%9A-1"><span class="toc-number">3.2.2.</span> <span class="toc-text">第二种方法（推荐）：</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/" title="关于rosdep的奇葩问题"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于rosdep的奇葩问题"/></a><div class="content"><a class="title" href="/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/" title="关于rosdep的奇葩问题">关于rosdep的奇葩问题</a><time datetime="2021-03-24T10:24:02.000Z" title="发表于 2021-03-24 18:24:02">2021-03-24</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/" title="《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数">《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数</a><time datetime="2020-01-07T04:20:02.000Z" title="发表于 2020-01-07 12:20:02">2020-01-07</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2020/01/04/writeDemo/" title="writeDemo">writeDemo</a><time datetime="2020-01-04T09:40:28.000Z" title="发表于 2020-01-04 17:40:28">2020-01-04</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 配齐</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

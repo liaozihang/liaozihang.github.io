@@ -3,10 +3,10 @@
   <title>配齐的个人博客</title>
   
   
-  <link href="/atom.xml" rel="self"/>
+  <link href="https://liaozihang.github.io/atom.xml" rel="self"/>
   
   <link href="https://liaozihang.github.io/"/>
-  <updated>2020-01-31T17:02:13.205Z</updated>
+  <updated>2021-03-25T12:20:15.029Z</updated>
   <id>https://liaozihang.github.io/</id>
   
   <author>
@@ -17,6 +17,38 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>关于rosdep的奇葩问题</title>
+    <link href="https://liaozihang.github.io/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/"/>
+    <id>https://liaozihang.github.io/2021/03/24/rosdep-update%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9%E9%97%AE%E9%A2%98/</id>
+    <published>2021-03-24T10:24:02.000Z</published>
+    <updated>2021-03-25T12:20:15.029Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>[TOC]</p><h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ rosdep update</span><br><span class="line">reading in sources list data from &#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d</span><br><span class="line">Hit file:&#x2F;&#x2F;&#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d&#x2F;osx-homebrew.yaml</span><br><span class="line">ERROR: unable to process source [https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros&#x2F;rosdistro&#x2F;master&#x2F;releases&#x2F;fuerte.yaml]:</span><br><span class="line">Failed to download target platform data for gbpdistro:</span><br><span class="line">&lt;urlopen error  [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590)&gt;</span><br><span class="line">Hit file:&#x2F;&#x2F;&#x2F;etc&#x2F;ros&#x2F;rosdep&#x2F;sources.list.d&#x2F;base.yaml</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>还有诸如<code>cannot download default sources list from</code> 、<code>unable to process source</code>等</p><h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><blockquote><p>搜索了一圈，发现大部分网友基本都是因为<code>你懂的</code>原因，出现了无法访问的问题，通过修改<code>host</code>、修改<code>nameserver</code>这些方法就能解决问题，但我遇到的问题好像是与<code>SSL安全证书</code>相关，网上搜索折腾了半天，终于还是update成功，特此记录一下。</p></blockquote><blockquote><p>这里贴几个比较好的帖子，从问题根源分析，提出了对应的解决方案：</p><blockquote><ol><li><a href="https://blog.csdn.net/nanianwochengshui/article/details/105702188">sudo rosdep init 出现 ERROR: cannot download default sources list from:</a><br>这个分析了原因，基本能解决大部分人<code>rosdep init\update</code>问题,另外插一句，别xjb用<code>sudo</code>。</li><li><a href="https://blog.csdn.net/baidu_28975749/article/details/114694015?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242">rosdep init、update一步到位</a><br>针对我的问题看了一下，并没有到位，因为我的问题根源在于SSL证书校验。</li><li><a href="https://blog.csdn.net/blances/article/details/105970354">python ssl错误(或信任私有证书)：全局取消验证</a><br>干净利落，能解决我的问题。</li><li><a href="https://blog.csdn.net/yixieling4397/article/details/79861379">关于python出现ssl：certificate_verify_failed问题</a><br>较<code>3.</code>的基础上，简要分析了一下原因，并提出重视安全问题时，推荐使用的方法。</li></ol></blockquote></blockquote><h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>从第一个帖子大致了解到，<code>rosdep init</code> 、<code>rosdep update</code> 干了些啥。<br><code>rosdep init</code>通过访问预设的url ，下载了<code>20-default.list</code> 放在了<code>/etc/ros/rosdep/sources.list.d/20-default.list</code>路径。</p><p>而<code>rosdep update</code>则根据<code>20-default.list</code>的路径，去下载更新其余配置。</p><blockquote><p>大致的归纳了一下，常见的几个解决办法总结如下：</p><ol><li>直接法：网络腿脚不便，修改<code>hosts</code>，<code>resolv.conf</code>;</li><li>间接法（<strong>推荐</strong>）：手动下载几个文件，将url指向本地文件地址；</li><li>取消ssl验证(<strong>针对certificate verify failed (_ssl.c:590)</strong>)；</li></ol></blockquote><h2 id="rosdep-init"><a href="#rosdep-init" class="headerlink" title="rosdep init"></a>rosdep init</h2><h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法:"></a>第一种方法:</h3><blockquote><ol><li>通过<a href="https://githubusercontent.com.ipaddress.com/raw.githubusercontent.com">https://www.ipaddress.com/</a><br>解析到raw.githubusercontent.com的ip地址<br><img src="/.io//2021-3-24-1616566537676.png" alt="raw.githubusercontent"></li><li>sudo vim /etc/hosts<br><code>185.199.108.133 raw.githubusercontent.com</code>添加到hosts文件中；或者在<code>/etc/resolv.conf</code>中添加google的DNS <code>nameserver 8.8.8.8</code></li></ol></blockquote><h3 id="第二种方法（推荐）："><a href="#第二种方法（推荐）：" class="headerlink" title="第二种方法（推荐）："></a>第二种方法（推荐）：</h3><blockquote><p> 博客一里边的思路，针对Kinetic有效，<strong>建议用这个方法，毕竟第一种方法看脸</strong></p><ol><li>下载<a href="https://github.com/ros/rosdistro">rosdistro库</a>，网络腿脚不便的同学，可以采用码云克隆仓库下载，也可以通过github镜像站下载，具体方法就不展开了。</li><li>修改刚刚下载的<code>rosdistro库</code>,将里边的<code>rosdep/source.list.d/20-default.list</code>修改成如下形式：</li></ol> <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 注意， file:<span class="comment">//后边的字符串，更改为你存放对应文件的具体地址</span></span><br><span class="line"><span class="meta"># os-specific listings first</span></span><br><span class="line"><span class="meta">#yaml https:<span class="comment">//raw.githubusercontent.com/ros/rosdistro/master/rosdep/osx-homebrew.yaml osx</span></span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/osx-homebrew.yaml osx</span></span><br><span class="line"><span class="meta"># generic</span></span><br><span class="line">gbpdistro file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/fuerte.yaml fuerte</span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/base.yaml</span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/python.yaml</span></span><br><span class="line">yaml file:<span class="comment">//你的rosdistro路径/rosdep/sources.list.d/ruby.yaml</span></span><br><span class="line"><span class="meta"># newer distributions (Groovy, Hydro, ...) must not be listed anymore, they are being fetched from the rosdistro index.yaml instead</span></span><br></pre></td></tr></table></figure><ol start="3"><li>修改<code>/usr/lib/python2.7/dist-packages/rosdep2/sources_list.py</code>，将<code>DEFAULT_SOURCES_LIST_URL</code>修改为20-default.list存放的路径</li></ol> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEFAULT_SOURCES_LIST_URL = <span class="string">&#x27;file://你的rosdistro路径/rosdep/sources.list.d/20-default.list&#x27;</span></span><br></pre></td></tr></table></figure><p> 同样的<br> 修改<code>/usr/lib/python2.7/dist-packages/rosdep2/rep3.py文件：</code></p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># location of targets file for processing gbpdistro files</span></span><br><span class="line">REP3_TARGETS_URL = <span class="string">&#x27;file://你的rosdistro路径/releases/targets.yaml&#x27;</span></span><br></pre></td></tr></table></figure><p> 修改<code>/usr/lib/python2.7/dist-packages/rosdistro/__init__.py文件：</code></p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># index information</span></span><br><span class="line"></span><br><span class="line">DEFAULT_INDEX_URL = <span class="string">&#x27;file://你的rosdistro路径/index-v4.yaml&#x27;</span></span><br><span class="line"></span><br><span class="line">def get_index_url():</span><br></pre></td></tr></table></figure><p> <code>rosdep init</code>即可，不管报错不报错，接着执行后边的操作就性了。</p></blockquote><h2 id="rosdep-update"><a href="#rosdep-update" class="headerlink" title="rosdep update"></a>rosdep update</h2><p>大部分人到这一步应该都没啥问题了，可我就不一样了（叉会儿腰），<br>我的一直报错<strong>certificate verify failed (_ssl.c:590)</strong>)，讲道理是可以不用管这个错误的，直接手动下载放到对应的文件夹即可，但看着这个错误，心里就是不爽。</p><p>奋斗了大半夜，最后找到了两种解决办法，推荐第二种。<br><strong>解决办法分两种</strong></p><h3 id="第一种方法："><a href="#第一种方法：" class="headerlink" title="第一种方法："></a>第一种方法：</h3><blockquote><p>在<code>/usr/lib/python2.7/dist-packages/rosdistro/__init__.py</code>中添加</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line">ssl._create_default_https_context = ssl._create_unverified_context</span><br></pre></td></tr></table></figure><p><img src="/.io//2021-3-24-1616569842987.png" alt="rosdep update"></p></blockquote><h3 id="第二种方法（推荐）：-1"><a href="#第二种方法（推荐）：-1" class="headerlink" title="第二种方法（推荐）："></a>第二种方法（推荐）：</h3><p>考虑到之前重新编译过OpenSSL，怀疑是不是证书文件夹指向有问题。<br>根据<a href="https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/how-to-configure-openssl-linux?pivots=programming-language-cpp">Configure OpenSSL for Linux</a>的步骤，查看 :</p><blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;$ openssl version -a |grep OPENSSLDIR</span><br></pre></td></tr></table></figure><p>输出</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;OPENSSLDIR: <span class="string">&quot;/usr/local/ssl&quot;</span> </span><br></pre></td></tr></table></figure><p>接着查看<code>/usr/local/ssl/certs</code>是否包含<code>.crt</code> 、<code>.pem</code>的个人证书文件，如果有很多，你就不用接着往下看了。因为我也不知道该怎么解决。<br>如果是空的，或者只有零星的一两个文件，那么很有可能原先存放证书的文件夹不是这个。</p></blockquote><p><strong>解决办法</strong><br>在shell环境中指定<code>SSL_CERT_DIR</code>路径到实际存放证书的路径下。或者把证书文件链接到上一步输出的路径。</p><blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;$ locate ssl/certs</span><br><span class="line">&gt;<span class="comment">#可以看到 /etc/ssl/certs/有很多的.crt、.pem</span></span><br><span class="line">&gt;$ <span class="built_in">export</span> SSL_CERT_DIR=/etc/ssl/certs</span><br><span class="line">&gt;<span class="comment">#执行</span></span><br><span class="line">&gt;rodep update </span><br><span class="line"></span><br></pre></td></tr></table></figure><p><img src="/.io//2021-3-24-1616572205910.png" alt="rosdep update successed"></p></blockquote><p>当然了，也可以做个软链接到<code>/usr/local/ssl</code>，不得不说，linux的软链接是真的舒服。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv /usr/<span class="built_in">local</span>/ssl/certs /usr/<span class="built_in">local</span>/ssl/certs.bak</span><br><span class="line">sudo ln -s /etc/ssl/certs /usr/<span class="built_in">local</span>/ssl/certs</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;hr&gt;
+&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td </summary>
+      
+    
+    
+    
+    <category term="学习写bug" scheme="https://liaozihang.github.io/categories/%E5%AD%A6%E4%B9%A0%E5%86%99bug/"/>
+    
+    
+    <category term="ros" scheme="https://liaozihang.github.io/tags/ros/"/>
+    
+    <category term="rosdep" scheme="https://liaozihang.github.io/tags/rosdep/"/>
+    
+    <category term="kinetic" scheme="https://liaozihang.github.io/tags/kinetic/"/>
+    
+    <category term="OpenSSL" scheme="https://liaozihang.github.io/tags/OpenSSL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>《SLAM十四讲（第二版）》学习笔记-第4讲：李群与李代数</title>
     <link href="https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/"/>
     <id>https://liaozihang.github.io/2020/01/07/SLAM%E5%8D%81%E5%9B%9B%E8%AE%B2-%E7%AC%AC4%E8%AE%B2/</id>
@@ -25,26 +57,24 @@
     
     <content type="html"><![CDATA[<h1 id="1-主要目标"><a href="#1-主要目标" class="headerlink" title="1.主要目标"></a>1.主要目标</h1><blockquote><ol><li>理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方式。</li><li>理解BCH近似的意义。</li><li>学会在李代数上的扰动模型。</li><li>使用Sophus对李代数进行运算。</li></ol></blockquote><hr><p>……</p><h2 id="2-锟斤拷"><a href="#2-锟斤拷" class="headerlink" title="2.锟斤拷"></a>2.锟斤拷</h2>]]></content>
     
-    <summary type="html">
     
       
       
-        &lt;h1 id=&quot;1-主要目标&quot;&gt;&lt;a href=&quot;#1-主要目标&quot; class=&quot;headerlink&quot; title=&quot;1.主要目标&quot;&gt;&lt;/a&gt;1.主要目标&lt;/h1&gt;&lt;blockquote&gt;
+    <summary type="html">&lt;h1 id=&quot;1-主要目标&quot;&gt;&lt;a href=&quot;#1-主要目标&quot; class=&quot;headerlink&quot; title=&quot;1.主要目标&quot;&gt;&lt;/a&gt;1.主要目标&lt;/h1&gt;&lt;blockquote&gt;
 &lt;ol&gt;
-&lt;li&gt;理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方
+&lt;li&gt;理解李群与李代数的概念，掌握SO（3）、SE（3）与对应李代数的表达方</summary>
       
     
-    </summary>
     
     
-      <category term="学习" scheme="https://liaozihang.github.io/categories/%E5%AD%A6%E4%B9%A0/"/>
+    <category term="学习" scheme="https://liaozihang.github.io/categories/%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="SLAM" scheme="https://liaozihang.github.io/tags/SLAM/"/>
+    <category term="SLAM" scheme="https://liaozihang.github.io/tags/SLAM/"/>
     
-      <category term="李群" scheme="https://liaozihang.github.io/tags/%E6%9D%8E%E7%BE%A4/"/>
+    <category term="李群" scheme="https://liaozihang.github.io/tags/%E6%9D%8E%E7%BE%A4/"/>
     
-      <category term="李代数" scheme="https://liaozihang.github.io/tags/%E6%9D%8E%E4%BB%A3%E6%95%B0/"/>
+    <category term="李代数" scheme="https://liaozihang.github.io/tags/%E6%9D%8E%E4%BB%A3%E6%95%B0/"/>
     
   </entry>
   
@@ -57,22 +87,20 @@
     
     <content type="html"><![CDATA[<p>@[toc]</p><p>@[TOC]</p><h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h2 id="test-1"><a href="#test-1" class="headerlink" title="test"></a>test</h2><ul><li><h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><ul><li><h4 id="1-1-footnote1"><a href="#1-1-footnote1" class="headerlink" title="1.1^footnote1"></a>1.1<a href="这是脚注提示1">^footnote1</a></h4></li></ul></li><li><h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3></li><li><h3 id="3"><a href="#3" class="headerlink" title="3"></a>3</h3></li></ul><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table><p><a href="https://www.baidu.com/" target="_blank" rel="noopener">百度</a></p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">foo</span> <span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num&gt;<span class="number">1</span>)&#123;<span class="keyword">return</span> <span class="number">0</span>&#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;<span class="keyword">return</span> num+<span class="number">1</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>highlight</code></p><blockquote><p>引用1</p><blockquote><p>引用1.1</p></blockquote></blockquote><!--注释--><p><del>del</del></p><ul><li><input disabled type="checkbox"> 任务列表</li><li><input checked disabled type="checkbox"> 已完成</li></ul><hr><p>$\exp \left( \phi ^{\wedge}\right) =\sum ^{\infty }_{n=0}\dfrac {1}{n!}\left( \phi ^{\wedge}\right) ^{n}$</p><p>$$<br>\exp \left( \phi ^{\wedge}\right) =\sum ^{\infty }_{n=0}\dfrac {1}{n!}\left( \phi ^{\wedge}\right) ^{n}<br>$$</p>]]></content>
     
-    <summary type="html">
     
       
       
-        &lt;p&gt;@[toc]&lt;/p&gt;
+    <summary type="html">&lt;p&gt;@[toc]&lt;/p&gt;
 &lt;p&gt;@[TOC]&lt;/p&gt;
-&lt;h1 id=&quot;test&quot;&gt;&lt;a href=&quot;#test&quot; class=&quot;headerlink&quot; title=&quot;test&quot;&gt;&lt;/a&gt;test&lt;/h1&gt;&lt;h2 id=&quot;test-1&quot;&gt;&lt;a href=&quot;#test-1&quot; cla
+&lt;h1 id=&quot;test&quot;&gt;&lt;a href=&quot;#test&quot; class=&quot;headerlink&quot; title=&quot;test&quot;&gt;&lt;/a&gt;test&lt;/h1&gt;&lt;h2 id=&quot;test-1&quot;&gt;&lt;a href=&quot;#test-1&quot; cla</summary>
       
     
-    </summary>
     
     
-      <category term="工具" scheme="https://liaozihang.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    <category term="工具" scheme="https://liaozihang.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
     
     
-      <category term="hexo" scheme="https://liaozihang.github.io/tags/hexo/"/>
+    <category term="hexo" scheme="https://liaozihang.github.io/tags/hexo/"/>
     
   </entry>
   
