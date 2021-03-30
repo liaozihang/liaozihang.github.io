@@ -34,7 +34,7 @@
     "hexo-theme-butterfly": "^1.0.0",
     "hexo-wordcount": "^6.0.1",
     "highlight.js": "^10.7.1",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.21",
     "pug": "^2.0.4"
   }
 }
