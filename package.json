@@ -35,6 +35,7 @@
     "hexo-wordcount": "^6.0.1",
     "highlight.js": "^10.7.1",
     "lodash": "^4.17.21",
+    "node-snackbar": "^0.1.16",
     "pug": "^2.0.4"
   }
 }

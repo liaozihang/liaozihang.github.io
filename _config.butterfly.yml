@@ -44,7 +44,7 @@ copy:
 # formal:
 #   icon: link || the description
 social:
-   fab fa-github: https://github.com/xxxxx || Github
+   fab fa-github: https://github.com || Github
    fas fa-envelope: liaozihang@gmail.com || Email
 
 # search (搜索)
@@ -87,7 +87,7 @@ favicon: /img/favicon.png
 # Avatar (頭像)
 avatar:
   img: /img/avatar.jpg
-  effect: true
+  effect: false
 
 # Disable all banner image
 disable_top_img: false
@@ -484,7 +484,7 @@ bing_site_verification:
 
 # Baidu Webmaster tools verification setting
 # See: https://ziyuan.baidu.com/site/
-baidu_site_verification: <meta name="baidu-site-verification" content="code-viJSn2NJAA" />
+baidu_site_verification:
 
 # 360 Webmaster tools verification setting
 # see http://zhanzhang.so.com/
@@ -686,7 +686,7 @@ aside:
       enable: true
       icon: fab fa-github
       text: Click Me
-      link: https://github.com/liaozihang
+      link: https://github.com/
   card_announcement:
     enable: true
     content: This is my Blog
@@ -845,14 +845,14 @@ aplayerInject:
 # position 彈窗位置
 # 可選 top-left / top-center / top-right / bottom-left / bottom-center / bottom-right
 snackbar:
-  enable: false
-  position: bottom-left
+  enable: true
+  position: top-center
   bg_light: '#49b1f5' # The background color of Toast Notification in light mode
   bg_dark: '#121212' # The background color of Toast Notification in dark mode
 
 # https://instant.page/
 # prefetch (預加載)
-instantpage: false
+instantpage: true
 
 # https://github.com/vinta/pangu.js
 # Insert a space between Chinese character and English character (中英文之間添加空格)
@@ -890,6 +890,7 @@ css_prefix: true
 inject:
   head:
     - '<style type="text/css">#toggle-sidebar {bottom: 80px}</style>'
+    - '<meta name="baidu-site-verification" content="code-viJSn2NJAA" />'
     # - <link rel="stylesheet" href="/xxx.css">
   bottom:
     <div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div>
